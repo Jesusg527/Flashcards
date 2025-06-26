@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Flash Card Deck</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app">
+    <h1>Flash Card Deck</h1>
+
+    <form id="cardForm">
+      <input type="text" id="question" placeholder="Question" required />
+      <input type="text" id="answer" placeholder="Answer" required />
+      <button type="submit">Add Card</button>
+    </form>
+
+    <div class="deck-view">
+      <div id="cardDisplay" class="card">No cards yet.</div>
+      <div class="controls">
+        <button id="prevBtn">Previous</button>
+        <button id="flipBtn">Flip</button>
+        <button id="nextBtn">Next</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
