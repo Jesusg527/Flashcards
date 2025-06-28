@@ -56,3 +56,10 @@ button {
   padding: 10px 20px;
   margin: 0 10px;
 }
+
+.delete {
+  background: #ffdddd;
+  color: red;
+  border: 1px solid red;
+  margin-top: 10px;
+}

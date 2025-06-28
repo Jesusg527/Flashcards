@@ -1,4 +1,4 @@
-let cards = JSON.parse(localStorage.getItem('flashcards') || '[]');
+let cards = JSON.parse(localStorage.getItem('flashcards')) || [];
 let currentIndex = 0;
 let showingAnswer = false;
 
@@ -10,6 +10,11 @@ const cardEl = document.getElementById('cardDisplay');
 const flipBtn = document.getElementById('flipBtn');
 const prevBtn = document.getElementById('prevBtn');
 const nextBtn = document.getElementById('nextBtn');
+const deleteBtn = document.getElementById('deleteBtn');
+
+function saveCards() {
+  localStorage.setItem('flashcards', JSON.stringify(cards));
+}
 
 function renderCard() {
   if (cards.length === 0) {
@@ -18,6 +23,7 @@ function renderCard() {
     flipBtn.disabled = true;
     prevBtn.disabled = true;
     nextBtn.disabled = true;
+    deleteBtn.disabled = true;
     return;
   }
 
@@ -28,6 +34,7 @@ function renderCard() {
   flipBtn.disabled = false;
   prevBtn.disabled = currentIndex === 0;
   nextBtn.disabled = currentIndex === cards.length - 1;
+  deleteBtn.disabled = false;
 }
 
 flipBtn.addEventListener('click', () => {
@@ -51,19 +58,34 @@ nextBtn.addEventListener('click', () => {
   }
 });
 
+deleteBtn.addEventListener('click', () => {
+  if (cards.length === 0) return;
+
+  cards.splice(currentIndex, 1);
+  if (currentIndex >= cards.length) currentIndex = cards.length - 1;
+  showingAnswer = false;
+  saveCards();
+  renderCard();
+});
+
 cardForm.onsubmit = (e) => {
   e.preventDefault();
+
   const question = questionInput.value.trim();
   const answer = answerInput.value.trim();
   if (!question || !answer) return;
 
   cards.push({ question, answer });
-  localStorage.setItem('flashcards', JSON.stringify(cards));
+  saveCards();
+
   questionInput.value = '';
   answerInput.value = '';
+
+
   currentIndex = cards.length - 1;
   showingAnswer = false;
   renderCard();
 };
+
 
 window.addEventListener('DOMContentLoaded', renderCard);
