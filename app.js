@@ -6,7 +6,7 @@ const cardForm = document.getElementById('cardForm');
 const questionInput = document.getElementById('question');
 const answerInput = document.getElementById('answer');
 
-const cardEl = document.getElementById('cardDisplay');
+const cardEl = document.getElementById('flashcard');
 const flipBtn = document.getElementById('flipBtn');
 const prevBtn = document.getElementById('prevBtn');
 const nextBtn = document.getElementById('nextBtn');
