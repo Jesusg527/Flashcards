@@ -10,19 +10,25 @@
   <link rel="icon" href="icon-192.png" />
   <meta name="theme-color" content="#ffffff" />
 
-  <!-- STYLES -->
+  <!-- Styles -->
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="container">
     <h1>Flashcard App</h1>
-    <div id="flashcard" class="card">Loading...</div>
+
+    <!-- Flashcard display -->
+    <div id="cardDisplay" class="card">Loading...</div>
+
+    <!-- Navigation buttons -->
     <div class="controls">
       <button id="prevBtn">Previous</button>
       <button id="flipBtn">Flip</button>
       <button id="nextBtn">Next</button>
+      <button id="deleteBtn">Delete</button>
     </div>
 
+    <!-- Add new card form -->
     <form id="cardForm">
       <h2>Add New Card</h2>
       <input type="text" id="question" placeholder="Question" required />
@@ -31,10 +37,9 @@
     </form>
   </div>
 
-  <!-- SCRIPTS -->
-  <script src="app.js"></script>
+  <!-- Script -->
+  <script src="script.js"></script>
   <script>
-    // Register service worker for PWA
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('service-worker.js')
         .then(() => console.log('✅ Service Worker registered'))
