@@ -2,31 +2,44 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Flash Card Deck</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Flashcard App</title>
+
+  <!-- PWA META -->
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" href="icon-192.png" />
+  <meta name="theme-color" content="#ffffff" />
+
+  <!-- STYLES -->
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="app">
-    <h1>Flash Card Deck</h1>
+  <div class="container">
+    <h1>Flashcard App</h1>
+    <div id="flashcard" class="card">Loading...</div>
+    <div class="controls">
+      <button id="prevBtn">Previous</button>
+      <button id="flipBtn">Flip</button>
+      <button id="nextBtn">Next</button>
+    </div>
 
     <form id="cardForm">
+      <h2>Add New Card</h2>
       <input type="text" id="question" placeholder="Question" required />
       <input type="text" id="answer" placeholder="Answer" required />
       <button type="submit">Add Card</button>
     </form>
-
-    <div class="deck-view">
-      <div id="cardDisplay" class="card">No cards yet.</div>
-      <div class="controls">
-        <button id="prevBtn">Previous</button>
-        <button id="flipBtn">Flip</button>
-        <button id="nextBtn">Next</button>
-      </div>
-      <button id="deleteBtn" class="delete">Delete Current Card</button>
-    </div>
   </div>
 
+  <!-- SCRIPTS -->
   <script src="app.js"></script>
+  <script>
+    // Register service worker for PWA
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js')
+        .then(() => console.log('✅ Service Worker registered'))
+        .catch(err => console.error('⚠️ Service Worker registration failed:', err));
+    }
+  </script>
 </body>
 </html>

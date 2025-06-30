@@ -87,4 +87,5 @@ cardForm.onsubmit = (e) => {
   renderCard();
 };
 
+
 window.addEventListener('DOMContentLoaded', renderCard);
