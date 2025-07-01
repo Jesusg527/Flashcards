@@ -5,12 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Flashcard App</title>
 
-  <!-- PWA META -->
+  <!-- PWA: Progressive Web App Support -->
   <link rel="manifest" href="manifest.json" />
   <link rel="icon" href="icon-192.png" />
   <meta name="theme-color" content="#ffffff" />
 
-  <!-- Styles -->
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -18,9 +17,9 @@
     <h1>Flashcard App</h1>
 
     <!-- Flashcard display -->
-    <div id="flashcard" class="card"></div>
+    <div id="cardDisplay" class="card">Loading...</div>
 
-    <!-- Navigation buttons -->
+    <!-- Navigation and controls -->
     <div class="controls">
       <button id="prevBtn">Previous</button>
       <button id="flipBtn">Flip</button>
@@ -28,7 +27,7 @@
       <button id="deleteBtn">Delete</button>
     </div>
 
-    <!-- Add new card form -->
+    <!-- Form to add a new flashcard -->
     <form id="cardForm">
       <h2>Add New Card</h2>
       <input type="text" id="question" placeholder="Question" required />
@@ -37,13 +36,13 @@
     </form>
   </div>
 
-  <!-- Script -->
-  <script src="script.js"></script>
+  <!-- Scripts -->
+  <script src="app.js"></script>
   <script>
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('service-worker.js')
         .then(() => console.log('✅ Service Worker registered'))
-        .catch(err => console.error('⚠️ Service Worker registration failed:', err));
+        .catch(err => console.warn('Service Worker registration failed:', err));
     }
   </script>
 </body>
