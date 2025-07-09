@@ -4,39 +4,33 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Flashcard App</title>
-
-  <!-- PWA: Progressive Web App Support -->
   <link rel="manifest" href="manifest.json" />
   <link rel="icon" href="icon-192.png" />
   <meta name="theme-color" content="#ffffff" />
-
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="container">
     <h1>Flashcard App</h1>
 
-    <!-- Flashcard display -->
     <div id="cardDisplay" class="card">Loading...</div>
 
-    <!-- Navigation and controls -->
     <div class="controls">
       <button id="prevBtn">Previous</button>
       <button id="flipBtn">Flip</button>
       <button id="nextBtn">Next</button>
+      <button id="editBtn">Edit</button>
       <button id="deleteBtn">Delete</button>
     </div>
 
-    <!-- Form to add a new flashcard -->
     <form id="cardForm">
-      <h2>Add New Card</h2>
+      <h2>Add or Edit Card</h2>
       <input type="text" id="question" placeholder="Question" required />
       <input type="text" id="answer" placeholder="Answer" required />
-      <button type="submit">Add Card</button>
+      <button type="submit">Save Card</button>
     </form>
   </div>
 
-  <!-- Scripts -->
   <script src="app.js"></script>
   <script>
     if ('serviceWorker' in navigator) {

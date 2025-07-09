@@ -1,6 +1,7 @@
 let cards = JSON.parse(localStorage.getItem('flashcards')) || [];
 let currentIndex = 0;
 let showingAnswer = false;
+let editing = false;
 
 const cardForm = document.getElementById('cardForm');
 const questionInput = document.getElementById('question');
@@ -11,6 +12,7 @@ const flipBtn = document.getElementById('flipBtn');
 const prevBtn = document.getElementById('prevBtn');
 const nextBtn = document.getElementById('nextBtn');
 const deleteBtn = document.getElementById('deleteBtn');
+const editBtn = document.getElementById('editBtn');
 
 function saveCards() {
   localStorage.setItem('flashcards', JSON.stringify(cards));
@@ -24,6 +26,7 @@ function renderCard() {
     prevBtn.disabled = true;
     nextBtn.disabled = true;
     deleteBtn.disabled = true;
+    editBtn.disabled = true;
     return;
   }
 
@@ -35,6 +38,7 @@ function renderCard() {
   prevBtn.disabled = currentIndex === 0;
   nextBtn.disabled = currentIndex === cards.length - 1;
   deleteBtn.disabled = false;
+  editBtn.disabled = false;
 }
 
 flipBtn.addEventListener('click', () => {
@@ -68,6 +72,15 @@ deleteBtn.addEventListener('click', () => {
   renderCard();
 });
 
+editBtn.addEventListener('click', () => {
+  if (cards.length === 0) return;
+
+  const currentCard = cards[currentIndex];
+  questionInput.value = currentCard.question;
+  answerInput.value = currentCard.answer;
+  editing = true;
+});
+
 cardForm.onsubmit = (e) => {
   e.preventDefault();
 
@@ -75,17 +88,20 @@ cardForm.onsubmit = (e) => {
   const answer = answerInput.value.trim();
   if (!question || !answer) return;
 
-  cards.push({ question, answer });
+  if (editing) {
+    cards[currentIndex] = { question, answer };
+  } else {
+    cards.push({ question, answer });
+    currentIndex = cards.length - 1;
+  }
+
+  editing = false;
   saveCards();
 
   questionInput.value = '';
   answerInput.value = '';
-
-
-  currentIndex = cards.length - 1;
   showingAnswer = false;
   renderCard();
 };
-
 
 window.addEventListener('DOMContentLoaded', renderCard);
