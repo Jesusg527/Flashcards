@@ -1,11 +1,13 @@
 let cards = JSON.parse(localStorage.getItem('flashcards')) || [];
 let currentIndex = 0;
 let showingAnswer = false;
+let filteredCards = [...cards];
 let editing = false;
 
 const cardForm = document.getElementById('cardForm');
 const questionInput = document.getElementById('question');
 const answerInput = document.getElementById('answer');
+const searchInput = document.getElementById('searchInput');
 
 const cardEl = document.getElementById('cardDisplay');
 const flipBtn = document.getElementById('flipBtn');
@@ -19,8 +21,8 @@ function saveCards() {
 }
 
 function renderCard() {
-  if (cards.length === 0) {
-    cardEl.textContent = "No cards available.";
+  if (filteredCards.length === 0) {
+    cardEl.textContent = "No matching cards.";
     cardEl.classList.remove('flipped');
     flipBtn.disabled = true;
     prevBtn.disabled = true;
@@ -30,13 +32,13 @@ function renderCard() {
     return;
   }
 
-  const currentCard = cards[currentIndex];
+  const currentCard = filteredCards[currentIndex];
   cardEl.textContent = showingAnswer ? currentCard.answer : currentCard.question;
   cardEl.classList.toggle('flipped', showingAnswer);
 
   flipBtn.disabled = false;
   prevBtn.disabled = currentIndex === 0;
-  nextBtn.disabled = currentIndex === cards.length - 1;
+  nextBtn.disabled = currentIndex === filteredCards.length - 1;
   deleteBtn.disabled = false;
   editBtn.disabled = false;
 }
@@ -55,7 +57,7 @@ prevBtn.addEventListener('click', () => {
 });
 
 nextBtn.addEventListener('click', () => {
-  if (currentIndex < cards.length - 1) {
+  if (currentIndex < filteredCards.length - 1) {
     currentIndex++;
     showingAnswer = false;
     renderCard();
@@ -63,19 +65,21 @@ nextBtn.addEventListener('click', () => {
 });
 
 deleteBtn.addEventListener('click', () => {
-  if (cards.length === 0) return;
+  if (filteredCards.length === 0) return;
+  const cardToDelete = filteredCards[currentIndex];
+  const originalIndex = cards.findIndex(c => c.question === cardToDelete.question && c.answer === cardToDelete.answer);
+  if (originalIndex !== -1) cards.splice(originalIndex, 1);
 
-  cards.splice(currentIndex, 1);
-  if (currentIndex >= cards.length) currentIndex = cards.length - 1;
+  filteredCards = [...cards];
+  if (currentIndex >= filteredCards.length) currentIndex = filteredCards.length - 1;
   showingAnswer = false;
   saveCards();
   renderCard();
 });
 
 editBtn.addEventListener('click', () => {
-  if (cards.length === 0) return;
-
-  const currentCard = cards[currentIndex];
+  if (filteredCards.length === 0) return;
+  const currentCard = filteredCards[currentIndex];
   questionInput.value = currentCard.question;
   answerInput.value = currentCard.answer;
   editing = true;
@@ -89,19 +93,34 @@ cardForm.onsubmit = (e) => {
   if (!question || !answer) return;
 
   if (editing) {
-    cards[currentIndex] = { question, answer };
+    const cardToEdit = filteredCards[currentIndex];
+    const originalIndex = cards.findIndex(c => c.question === cardToEdit.question && c.answer === cardToEdit.answer);
+    if (originalIndex !== -1) {
+      cards[originalIndex] = { question, answer };
+    }
+    editing = false;
   } else {
     cards.push({ question, answer });
-    currentIndex = cards.length - 1;
   }
 
-  editing = false;
   saveCards();
-
+  filteredCards = [...cards];
   questionInput.value = '';
   answerInput.value = '';
+  currentIndex = filteredCards.length - 1;
   showingAnswer = false;
   renderCard();
 };
+
+searchInput.addEventListener('input', () => {
+  const term = searchInput.value.trim().toLowerCase();
+  filteredCards = cards.filter(card =>
+    card.question.toLowerCase().includes(term) ||
+    card.answer.toLowerCase().includes(term)
+  );
+  currentIndex = 0;
+  showingAnswer = false;
+  renderCard();
+});
 
 window.addEventListener('DOMContentLoaded', renderCard);

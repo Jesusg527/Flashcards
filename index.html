@@ -2,19 +2,21 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Flashcard App</title>
-  <link rel="manifest" href="manifest.json" />
-  <link rel="icon" href="icon-192.png" />
-  <meta name="theme-color" content="#ffffff" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="container">
     <h1>Flashcard App</h1>
 
+    <!-- Search bar -->
+    <input type="text" id="searchInput" placeholder="Search flashcards..." />
+
+    <!-- Card display -->
     <div id="cardDisplay" class="card">Loading...</div>
 
+    <!-- Controls -->
     <div class="controls">
       <button id="prevBtn">Previous</button>
       <button id="flipBtn">Flip</button>
@@ -23,21 +25,15 @@
       <button id="deleteBtn">Delete</button>
     </div>
 
+    <!-- Add/edit form -->
     <form id="cardForm">
-      <h2>Add or Edit Card</h2>
-      <input type="text" id="question" placeholder="Question" required />
-      <input type="text" id="answer" placeholder="Answer" required />
+      <input type="text" id="question" placeholder="Enter question" required />
+      <input type="text" id="answer" placeholder="Enter answer" required />
       <button type="submit">Save Card</button>
     </form>
   </div>
 
+  <!-- App logic -->
   <script src="app.js"></script>
-  <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('service-worker.js')
-        .then(() => console.log('✅ Service Worker registered'))
-        .catch(err => console.warn('Service Worker registration failed:', err));
-    }
-  </script>
 </body>
 </html>
